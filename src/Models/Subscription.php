@@ -24,6 +24,6 @@ class Subscription extends Model
 
     public function musicbox(): BelongsTo
     {
-        return $this->belongsTo(MusicBox::class);
+        return $this->belongsTo(MusicBox::class, 'music_box_id');
     }
 }

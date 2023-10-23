@@ -11,5 +11,8 @@ return [
         \Illuminate\Database\DatabaseServiceProvider::class,
         \Illuminate\Foundation\Providers\FoundationServiceProvider::class,
         \Illuminate\Mail\MailServiceProvider::class,
+        \Illuminate\Filesystem\FilesystemServiceProvider::class,
+        \Illuminate\View\ViewServiceProvider::class,
+        \App\RouteServiceProvider::class,
     ],
 ];

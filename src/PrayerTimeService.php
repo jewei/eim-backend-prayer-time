@@ -7,8 +7,11 @@ namespace App;
 use App\Enums\PrayerTimezone;
 use App\Enums\Waktu;
 use App\Models\PrayerTime;
+use App\Models\Subscriber;
 use Carbon\CarbonInterface;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
@@ -81,5 +84,35 @@ class PrayerTimeService
                     'start_at' => $datetime,
                 ]);
         }
+    }
+
+    public static function viewAll(): Factory|View
+    {
+        $items = PrayerTime::query()
+            ->where('start_at', '>', now())
+            ->orderBy('start_at')
+            ->limit(20)
+            ->get();
+
+        $subscribers = Subscriber::query()
+            ->with('subscriptions')
+            ->limit(20)
+            ->get();
+
+        return view('dashboard', [
+            'items' => $items,
+            'subscribers' => $subscribers,
+        ]);
+    }
+
+    public static function viewSubscriber(int $id): Factory|View
+    {
+        $subscriber = Subscriber::query()
+            ->with('subscriptions.musicbox.songs')
+            ->find($id);
+
+        return view('subscriber', [
+            'subscriber' => $subscriber,
+        ]);
     }
 }

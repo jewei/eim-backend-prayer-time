@@ -2,4 +2,6 @@ parameters:
     level: max
     paths:
         - src
+    universalObjectCratesClasses:
+        - Illuminate\Http\Request
     treatPhpDocTypesAsCertain: false
