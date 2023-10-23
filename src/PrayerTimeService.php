@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace App;
 
 use App\Enums\PrayerTimezone;
+use App\Enums\Waktu;
+use App\Models\PrayerTime;
 use Carbon\CarbonInterface;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -55,5 +58,28 @@ class PrayerTimeService
         }
 
         return $response->json('prayerTime')[0]; /** @phpstan-ignore-line */
+    }
+
+    public function upsert(PrayerTimezone $prayerTimezone, SolatEntry $solatEntry): void
+    {
+        $date = Carbon::parse($solatEntry->date);
+
+        foreach (Waktu::cases() as $waktu) {
+            $datetime = Carbon::parse(
+                sprintf(
+                    '%s %s',
+                    $solatEntry->date,
+                    $solatEntry->{$waktu->value}
+                )
+            );
+
+            PrayerTime::whereDate('start_at', $date->format('Y-m-d')) /** @phpstan-ignore-line */
+                ->updateOrCreate([
+                    'prayer_timezone' => $prayerTimezone->name,
+                    'waktu' => $waktu->value,
+                ], [
+                    'start_at' => $datetime,
+                ]);
+        }
     }
 }

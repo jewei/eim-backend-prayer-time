@@ -1,17 +1,18 @@
-# Prayer time app
+# EIM Prayer Time (backend)
 
-A mininum POC application.
-
-Note: Not for production use.
+A POC backend application to demostrate prayer time generation using PHP.
 
 ## Setup
 
-Requirements: PHP 8 with SQLite driver.
+Requirements: PHP 8, Composer.
 
 ```shell
-# Install PHP dependencies
+# Install PHP dependencies.
 composer install
 
-# Seed the database
-php php console.php app:seed-database
+# Create environment file and create database.
+composer setup
+
+# Seed the database.
+composer fast-refresh
 ```

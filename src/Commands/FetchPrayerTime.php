@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Commands;
 
 use App\Enums\PrayerTimezone;
-use App\Enums\Waktu;
-use App\Models\PrayerTime;
 use App\PrayerTimeService;
+use App\SolatEntry;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 
@@ -24,20 +23,15 @@ class FetchPrayerTime extends Command
 
     public function handle(): void
     {
-        foreach (PrayerTimezone::cases() as $prayerTimezone) {
-            $date = Carbon::now()->addDays(8);
-            $entry = $this->prayerTimeService->fetchDailySchedule($prayerTimezone, $date);
+        $date = Carbon::now()->addDays(7);
 
-            foreach (Waktu::cases() as $waktu) {
-                if (array_key_exists($waktu->value, $entry)) {
-                    PrayerTime::updateOrCreate([
-                        'prayer_timezone' => $prayerTimezone->name,
-                        'waktu' => $waktu->value,
-                    ], [
-                        'start_at' => Carbon::parse($entry['date'].' '.$entry[$waktu->value]),
-                    ]);
-                }
-            }
+        foreach (PrayerTimezone::cases() as $prayerTimezone) {
+            $schedule = $this->prayerTimeService->fetchDailySchedule($prayerTimezone, $date);
+
+            $this->prayerTimeService->upsert(
+                prayerTimezone: $prayerTimezone,
+                solatEntry: SolatEntry::from($schedule),
+            );
         }
     }
 }

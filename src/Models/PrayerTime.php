@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static \Illuminate\Database\Eloquent\Builder create(array $attributes = [])
  * @method static \Illuminate\Database\Eloquent\Builder updateOrCreate(array $attributes, array $values = [])
+ * @method static \Illuminate\Database\Query\Builder whereDate($column, $operator, $value = null, $boolean = 'and')
+ * @method static \Illuminate\Database\Eloquent\Builder updateOrCreate(array $attributes, array $values = [])
  */
 class PrayerTime extends Model
 {
