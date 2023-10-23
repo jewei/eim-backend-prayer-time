@@ -13,6 +13,7 @@ return [
         \Illuminate\Mail\MailServiceProvider::class,
         \Illuminate\Filesystem\FilesystemServiceProvider::class,
         \Illuminate\View\ViewServiceProvider::class,
+        \Illuminate\Translation\TranslationServiceProvider::class,
         \App\RouteServiceProvider::class,
     ],
 ];
