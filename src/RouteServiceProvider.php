@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -20,7 +19,7 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::get(
                 uri: '/subscriber/{id}',
-                action: fn (Request $request) => PrayerTimeService::viewSubscriber($request->integer('id'))
+                action: fn (int $id) => PrayerTimeService::viewSubscriber($id)
             );
 
             Route::fallback(
