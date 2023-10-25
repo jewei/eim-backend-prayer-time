@@ -37,7 +37,6 @@ final class Dotenv
             if (mb_strpos($line, '=', 0, 'UTF-8')) {
                 $parts = array_map('trim', explode('=', $line, 2));
                 if ($parts[0] && $parts[1]) {
-                    // $this->storage[$parts[0]] = $parts[1];
                     $_ENV[$parts[0]] = $parts[1];
                 }
             }

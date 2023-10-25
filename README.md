@@ -2,7 +2,9 @@
 
 A POC backend application to demostrate prayer time generation using PHP.
 
-This app is build on top of Laravel libraries to access speed development.
+The only dependency on external PHP library is PHP Composer for autoloading.
+
+The dev dependencies are for debugging, code checking and formating.
 
 ## Setup
 
@@ -28,7 +30,7 @@ provided username and password to fill in `.env`.
 
 As this is only a POC. In order to scale, here's the recommendation:
 
-1. Use the Laravel Framework to access its rich eco system.
+1. Use the Laravel Framework to access to their rich eco system.
 2. Have a proper admin dashboard.
 3. Implement push message via Firebase to initiate to play the voice over.
 4. Point 3 should be able to support multiple devices from a user.
