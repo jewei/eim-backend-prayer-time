@@ -8,7 +8,7 @@ namespace App;
  * Value object for a solat time entry item return by API from
  * https://www.e-solat.gov.my/ consist of daily prayer schedule.
  */
-readonly class SolatEntry
+final readonly class SolatEntry
 {
     public function __construct(
         public string $hijri,

@@ -10,7 +10,7 @@ use DateTimeInterface;
 /**
  * This service module handles prayer time related logic.
  */
-class PrayerTimeService
+final class PrayerTimeService
 {
     public const API_URL = 'https://www.e-solat.gov.my/index.php';
 
