@@ -22,7 +22,7 @@ final class Router extends ServiceProvider
     public function addRoute(string $method, string $url, Closure $handler): void
     {
         // Add to the route map.
-        $this->routes[$method][$url] = $handler;
+        $this->routes[$method][rtrim($url, '/')] = $handler;
     }
 
     public function handle(string $method, string $uri): Response
@@ -32,7 +32,7 @@ final class Router extends ServiceProvider
             $uri = substr($uri, 0, $pos);
         }
 
-        $uri = rawurldecode($uri);
+        $uri = rtrim(rawurldecode($uri), '/');
 
         if (isset($this->routes[$method], $this->routes[$method][$uri])) {
             return $this->routes[$method][$uri]();

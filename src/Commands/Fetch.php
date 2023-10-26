@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Commands;
 
-use App\Contracts\CommandInterface;
+use App\Command;
 
-final class Fetch implements CommandInterface
+final class Fetch extends Command
 {
-    public function handle(): void
+    /**
+     * @param  array<int, string>  $arguments
+     */
+    public function handle(array $arguments): void
     {
         echo 'this is cool';
     }

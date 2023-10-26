@@ -23,7 +23,7 @@
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <div class="py-4 sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                  <h1 class="text-base font-semibold leading-6 text-gray-900">Upcoming prayer times</h1>
+                  <h1 class="text-base font-semibold leading-6 text-gray-900">Upcoming Prayer Times</h1>
                   <p class="mt-2 text-sm text-gray-700">Only showing the latest 20 entries. The system should notify the music player to play the voice over when the time is up.</p>
                 </div>
                 <div class="">
@@ -35,27 +35,35 @@
                   <tr>
                     <th scope="col" class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Zone</th>
                     <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Type</th>
+                    <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
                     <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Time</th>
                     <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">When</th>
+                    <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Location</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white"> 
-                  @foreach ($items as $item) 
+                  <?php foreach ($prayerTimes as $prayerTime) { ?>
                     <tr>
                       <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">
-                        {{ $item->prayer_timezone->name }}
+                        <?php echo $prayerTime->timezone->name; ?>
                       </td>
                       <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
-                        {{ $item->waktu->name }}
+                        <?php echo $prayerTime->waktu->name; ?>
                       </td>
                       <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                        {{ $item->start_at }}
+                        <?php echo $prayerTimes[0]->start->format('M d'); ?>
                       </td>
                       <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
-                        {{ $item->start_at->diffForHumans() }}
+                        <?php echo $prayerTimes[0]->start->format('H:i'); ?>
+                      </td>
+                      <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                        <?php echo diff_for_humans($prayerTimes[0]->start); ?>
+                      </td>
+                      <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-500">
+                        <?php echo $prayerTime->timezone->locations(); ?>
                       </td>
                     </tr> 
-                  @endforeach
+                  <?php } ?>
                 </tbody>
               </table>
             </div>
@@ -75,27 +83,23 @@
                   <tr>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Name</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
-                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Subscriptions</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
                   </tr>
                 </thead>
                 <tbody class="bg-white">
-                  @foreach ($subscribers as $subscriber) 
+                  <?php foreach ($subscribers as $subscriber) { ?>
                     <tr class="even:bg-gray-50">
                       <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3">
-                        {{ $subscriber->name }}
+                        <?php echo $subscriber->name; ?>
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {{ $subscriber->email }}
-                      </td>
-                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        {{ $subscriber->subscriptions->count() }}
+                        <?php echo $subscriber->email; ?>
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-700">
-                        <a href="/subscriber/{{ $subscriber->id }}">View →</a>
+                        <a href="/subscriber?id=<?php echo $subscriber->id; ?>">View →</a>
                       </td>
                     </tr>
-                  @endforeach
+                  <?php } ?>
                 </tbody>
               </table>
             </div>

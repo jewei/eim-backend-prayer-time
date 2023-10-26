@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use App\Http\HtmlResponse;
+use App\PrayerTimeGateway;
 
-$app->route('GET', '/', fn () => new HtmlResponse(json_encode(['foo' => 'bar']), 200, 'OK', ['Content-Type' => 'application/json']));
+$app->route('GET', '/', fn () => PrayerTimeGateway::viewAll());
 
-$app->route('GET', '/dashboard', fn () => new HtmlResponse('Hello world :D'));
+$app->route('GET', '/subscriber', fn () => PrayerTimeGateway::viewSubscriber());

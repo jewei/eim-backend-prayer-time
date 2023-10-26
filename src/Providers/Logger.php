@@ -71,7 +71,7 @@ final class Logger extends ServiceProvider implements LoggerInterface
                 date('Y-m-d H:i:s'),
                 strtoupper($level),
                 $message,
-                json_encode($context, JSON_PRETTY_PRINT),
+                json_encode($context, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
             );
 
             file_put_contents(base_path('app.log'), $logEntry, FILE_APPEND);

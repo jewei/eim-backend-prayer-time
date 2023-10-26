@@ -6,5 +6,8 @@ namespace App\Contracts;
 
 interface CommandInterface
 {
-    public function handle(): void;
+    /**
+     * @param  array<int, string>  $arguments
+     */
+    public function handle(array $arguments): void;
 }

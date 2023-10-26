@@ -11,5 +11,5 @@ return [
         App\Providers\Mailer::class,
         App\Providers\Router::class,
     ],
-    'database' => base_path('/database/database.sqlite'),
+    'database' => base_path('database/database.sqlite'),
 ];

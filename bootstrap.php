@@ -26,21 +26,6 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 mb_internal_encoding('UTF-8');
 
 /**
- * Include helper functions.
+ * Create, initialize and return the application.
  */
-require __DIR__.'/helpers.php';
-
-/**
- * Create the application, the IoC container for dependency injection.
- */
-$app = new Application();
-
-/**
- * Initialize the application.
- */
-$app->init();
-
-/**
- * Return the application.
- */
-return $app;
+return Application::make();

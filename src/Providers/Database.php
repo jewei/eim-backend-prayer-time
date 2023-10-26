@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Application;
 use App\ServiceProvider;
+use Exception;
 use PDO;
 use PDOException;
 
@@ -23,14 +23,6 @@ final class Database extends ServiceProvider
      */
     protected $connection;
 
-    protected string $database;
-
-    public function boot(Application $app): void
-    {
-        $this->database = $app->config('database') ?? '';
-        $this->connect();
-    }
-
     /**
      * Connects to the database.
      */
@@ -42,7 +34,7 @@ final class Database extends ServiceProvider
 
         // Create a new PDO connection.
         $this->connection = new PDO(
-            dsn: "sqlite:{$this->database}",
+            dsn: "sqlite:{$this->app->config('database')}",
             options: [
                 PDO::ATTR_CASE => PDO::CASE_NATURAL,
                 PDO::ATTR_ORACLE_NULLS => PDO::NULL_NATURAL,
@@ -57,11 +49,25 @@ final class Database extends ServiceProvider
     }
 
     /**
+     * @param  array<int|string, int|string>  $bindings
+     * @return array<int, array<string, string>>
+     */
+    public function fetch(string $query, array $bindings = []): array
+    {
+        if (is_int($result = $this->execute($query, $bindings, true))) {
+            throw new Exception('Expecting fetch to get array type result');
+        }
+
+        return $result;
+    }
+
+    /**
      * Execute an SQL statement and return the number of affected rows.
      *
-     * @param  array<string, string>  $bindings
+     * @param  array<int|string, int|string>  $bindings
+     * @return int|array<int, array<string, string>>
      */
-    public function execute(string $query, array $bindings = []): int
+    public function execute(string $query, array $bindings = [], bool $fetchMode = false): int|array
     {
         // Reconnect to the database if the PDO connection is missing.
         if (! $this->connection) {
@@ -76,15 +82,29 @@ final class Database extends ServiceProvider
 
             // Bind values to given parameters in the statement.
             foreach ($bindings as $key => $value) {
-                $statement->bindValue($key, $value, $this->getPdoType($value));
+                $statement->bindValue(
+                    is_string($key) ? $key : $key + 1,
+                    $value,
+                    $this->getPdoType($value)
+                );
             }
 
             // Execute the query against the database.
             $statement->execute();
 
-            // Return the number of rows affected by the statement.
-            return $statement->rowCount();
+            if ($fetchMode) {
+                if (false === $result = $statement->fetchAll(PDO::FETCH_ASSOC)) {
+                    throw new Exception('Failed to fetch from database');
+                }
+
+                // Return the selected rows.
+                return $result;
+            } else {
+                // Return the number of rows affected by the statement.
+                return $statement->rowCount();
+            }
         } catch (PDOException $e) {
+            $this->app->log('error', $e->getMessage());
             throw $e;
         } finally {
             // Closes the cursor, enabling the statement to be executed again.
@@ -92,6 +112,29 @@ final class Database extends ServiceProvider
                 $statement->closeCursor();
             }
         }
+    }
+
+    /**
+     * Dangerously run query.
+     */
+    public function executeRaw(string $query): int
+    {
+        if (! $this->connection) {
+            $this->connection = $this->connect();
+        }
+
+        try {
+            $res = $this->connection->exec($query);
+
+            if ($res !== false) {
+                return $res;
+            }
+        } catch (PDOException $e) {
+            $this->app->log('error', $e->getMessage());
+            throw $e;
+        }
+
+        return 0;
     }
 
     /**

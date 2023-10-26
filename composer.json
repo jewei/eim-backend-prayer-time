@@ -20,7 +20,8 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/"
-        }
+        },
+        "files": ["helpers.php"]
     },
     "scripts": {
         "lint": "pint --ansi",

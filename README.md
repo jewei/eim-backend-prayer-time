@@ -6,6 +6,13 @@ The only dependency on external PHP library is PHP Composer for autoloading.
 
 The dev dependencies are for debugging, code checking and formating.
 
+## Highlights
+
+1. All OOP codes passed PHPStan max level checking.
+2. This "build your own framework" was fun but make sure it's not going to production.
+3. With the YAGNI principle, it should do one thing but do it well and do it right.
+4. Minumum is the best.
+
 ## Setup
 
 Requirements: PHP 8, Composer.
@@ -14,11 +21,11 @@ Requirements: PHP 8, Composer.
 # Install PHP dependencies.
 composer install
 
-# Create environment file and create database.
-composer setup
+# Create a seeded database.
+php console migrate --fast
 
-# Seed the database.
-composer fast-refresh
+# Create an empty database and populate with data.
+php console migrate
 ```
 
 ## Mail
