@@ -11,21 +11,21 @@ use App\Exceptions\HttpErrorException;
  */
 final class Client
 {
-    const REQUEST_METHOD_GET = 'GET';
+    public const REQUEST_METHOD_GET = 'GET';
 
-    const REQUEST_METHOD_HEAD = 'HEAD';
+    public const REQUEST_METHOD_HEAD = 'HEAD';
 
-    const REQUEST_METHOD_POST = 'POST';
+    public const REQUEST_METHOD_POST = 'POST';
 
-    const REQUEST_METHOD_PUT = 'PUT';
+    public const REQUEST_METHOD_PUT = 'PUT';
 
-    const REQUEST_METHOD_DELETE = 'DELETE';
+    public const REQUEST_METHOD_DELETE = 'DELETE';
 
-    const REQUEST_METHOD_CONNECT = 'CONNECT';
+    public const REQUEST_METHOD_CONNECT = 'CONNECT';
 
-    const REQUEST_METHOD_OPTIONS = 'OPTIONS';
+    public const REQUEST_METHOD_OPTIONS = 'OPTIONS';
 
-    const REQUEST_METHOD_PATCH = 'PATCH';
+    public const REQUEST_METHOD_PATCH = 'PATCH';
 
     /**
      * Make a cURL request.
@@ -47,7 +47,7 @@ final class Client
             self::REQUEST_METHOD_PATCH,
             self::REQUEST_METHOD_PUT,
         ]) && count($payload)) {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($payload));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         }
 
         curl_setopt_array($curl, [
@@ -78,6 +78,11 @@ final class Client
 
         curl_close($curl);
         unset($curl);
+
+        app()->log('debug', 'HTTP client request', [
+            'request' => $method.' '.$url,
+            'response' => $response->getStatusCode(),
+        ]);
 
         return $response;
     }

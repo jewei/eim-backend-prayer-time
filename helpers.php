@@ -18,7 +18,7 @@ function app(): App\Application
 
 function now(): string
 {
-    return (new DateTime('now'))->format('Y-m-d H:i:s');
+    return (new DateTimeImmutable('now'))->format('Y-m-d H:i:s');
 }
 
 function file_read(string $filename): string
@@ -30,9 +30,9 @@ function file_read(string $filename): string
     return $data;
 }
 
-function diff_for_humans(DateTime $dateTime): string
+function diff_for_humans(DateTimeInterface $dateTime): string
 {
-    $interval = ($now = new DateTime('now'))->diff($dateTime);
+    $interval = ($now = new DateTimeImmutable('now'))->diff($dateTime);
     $relativeTerm = ($dateTime > $now ? ' from now' : ' ago');
 
     return match (true) {
@@ -65,4 +65,9 @@ function view(string $file, array $data): string
     }
 
     throw new Exception('File not found: '.$file);
+}
+
+function str_random(int $length): string
+{
+    return bin2hex((new Random\Randomizer())->getBytes($length));
 }

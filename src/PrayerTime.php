@@ -6,7 +6,8 @@ namespace App;
 
 use App\Enums\PrayerTimezone;
 use App\Enums\Waktu;
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 final readonly class PrayerTime
 {
@@ -14,7 +15,7 @@ final readonly class PrayerTime
         public int $id,
         public PrayerTimezone $timezone,
         public Waktu $waktu,
-        public DateTime $start,
+        public DateTimeInterface $start,
     ) {
     }
 
@@ -27,7 +28,7 @@ final readonly class PrayerTime
             (int) $data['id'],
             PrayerTimezone::from($data['prayer_timezone']),
             Waktu::from($data['waktu']),
-            new DateTime((string) $data['start_at']),
+            new DateTimeImmutable((string) $data['start_at']),
         );
     }
 }

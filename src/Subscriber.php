@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 final readonly class Subscriber
 {
@@ -15,7 +16,7 @@ final readonly class Subscriber
         public int $id,
         public string $name,
         public string $email,
-        public DateTime $created,
+        public DateTimeInterface $created,
         public array $subscriptions,
     ) {
     }
@@ -29,7 +30,7 @@ final readonly class Subscriber
             (int) $data['id'],
             (string) $data['name'],
             (string) $data['email'],
-            new DateTime((string) $data['created_at']),
+            new DateTimeImmutable((string) $data['created_at']),
             Repository::getSubscriptions((int) $data['id']),
         );
     }

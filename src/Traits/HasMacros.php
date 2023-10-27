@@ -8,6 +8,7 @@ use App\Enums\LogLevel;
 use App\Providers\Config;
 use App\Providers\Database;
 use App\Providers\Logger;
+use App\Providers\Mailer;
 use App\Providers\Router;
 use Closure;
 use InvalidArgumentException;
@@ -34,7 +35,7 @@ trait HasMacros
     }
 
     /**
-     * @param  array<string, int|string>  $context
+     * @param  array<string, mixed>  $context
      */
     public function log(string $level, string $message, array $context = []): void
     {
@@ -63,5 +64,11 @@ trait HasMacros
     public function route(string $method, string $url, Closure $handler): void
     {
         $this->router()->addRoute($method, $url, $handler);
+    }
+
+    public function mailer(): Mailer
+    {
+        /** @var Mailer */
+        return $this->get(Mailer::class);
     }
 }

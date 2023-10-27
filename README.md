@@ -21,11 +21,17 @@ Requirements: PHP 8, Composer.
 # Install PHP dependencies.
 composer install
 
-# Create a seeded database.
+# Create with a seeded database, prayer times might be outdated.
 php console migrate --fast
 
-# Create an empty database and populate with data.
+# Create an empty database and populate with sample data.
 php console migrate
+```
+
+To keep prayer times data updated, create a daily cron to fetch the seventh day's data.
+```
+# Run the script daily at 1AM.
+0 1 * * * php /path/to/console fetch $(date +\%Y-\%m-\%d -d "7 days")
 ```
 
 ## Mail

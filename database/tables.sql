@@ -11,6 +11,7 @@ CREATE TABLE "subscribers" (
 DROP TABLE IF EXISTS "music_boxes";
 CREATE TABLE "music_boxes" (
 	"id" integer PRIMARY KEY autoincrement NOT NULL,
+	"name" varchar NOT NULL,
 	"prayer_timezone" varchar NOT NULL,
 	"prayer_time_enabled" tinyint (1) NOT NULL DEFAULT '1',
 	"created_at" datetime,
@@ -37,6 +38,9 @@ CREATE TABLE "prayer_times" (
 	"updated_at" datetime
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_prayer_times_unique
+ON prayer_times (prayer_timezone, waktu, DATE(start_at));
+
 DROP TABLE IF EXISTS "subscriptions";
 CREATE TABLE "subscriptions" (
 	"id" integer PRIMARY KEY autoincrement NOT NULL,
@@ -45,3 +49,6 @@ CREATE TABLE "subscriptions" (
 	"created_at" datetime,
 	"updated_at" datetime
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS idx_subscriptions_unique
+ON subscriptions (subscriber_id, subscriber_id);

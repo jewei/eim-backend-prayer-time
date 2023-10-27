@@ -19,6 +19,6 @@ final class Http extends ServiceProvider
      */
     public function request(string $method, string $url, array $payload = [], array $headers = []): Response
     {
-        return (new Client)->request($method, $url, $payload, $headers);
+        return (new Client())->request($method, $url, $payload, $headers);
     }
 }

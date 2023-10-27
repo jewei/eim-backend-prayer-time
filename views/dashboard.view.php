@@ -83,6 +83,7 @@
                   <tr>
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-3">Name</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Active Subscriptions</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"></th>
                   </tr>
                 </thead>
@@ -94,6 +95,9 @@
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                         <?php echo $subscriber->email; ?>
+                      </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                        <?php echo count($subscriber->subscriptions); ?>
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-700">
                         <a href="/subscriber?id=<?php echo $subscriber->id; ?>">View →</a>

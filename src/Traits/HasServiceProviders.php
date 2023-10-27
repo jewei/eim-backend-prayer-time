@@ -14,7 +14,7 @@ trait HasServiceProviders
     public static function make(): self
     {
         if (! self::$app) {
-            self::$app = (new self)->init();
+            self::$app = (new self())->init();
         }
 
         return self::$app;

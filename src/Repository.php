@@ -176,4 +176,121 @@ final class Repository
 
         return $songs;
     }
+
+    public static function upsertPrayerTime(string $timezone, string $waktu, string $start): int
+    {
+        // This is the SQLite version of `ON DUPLICATE KEY UPDATE`.
+        $query = <<<'QUERY'
+            INSERT INTO prayer_times (prayer_timezone, waktu, start_at, created_at, updated_at)
+                VALUES(:timezone, :waktu, :start, :now, :now) ON CONFLICT (prayer_timezone, waktu, DATE(start_at))
+                DO
+                UPDATE
+                SET
+                    start_at = excluded.start_at,
+                    updated_at = excluded.created_at;
+        QUERY;
+
+        $result = app()->db()->execute($query, [
+            ':timezone' => $timezone,
+            ':waktu' => $waktu,
+            ':start' => $start,
+            ':now' => now(),
+        ]);
+
+        return is_int($result) ? $result : 0;
+    }
+
+    public static function createSubscriber(string $name, string $email, #[\SensitiveParameter] string $password): int
+    {
+        $query = <<<'QUERY'
+            INSERT INTO subscribers (name, email, PASSWORD, created_at, updated_at)
+                VALUES(:name, :email, :password, :now, :now);
+        QUERY;
+
+        $result = app()->db()->execute($query, [
+            ':name' => $name,
+            ':email' => $email,
+            ':password' => password_hash($password, PASSWORD_BCRYPT),
+            ':now' => now(),
+        ]);
+
+        return is_int($result) ? $result : 0;
+    }
+
+    public static function createMusicBox(string $name, string $timezone, bool $prayerTimeEnabled): int
+    {
+        $query = <<<'QUERY'
+            INSERT INTO music_boxes (name, prayer_timezone, prayer_time_enabled, created_at, updated_at)
+                VALUES(:name, :timezone, :enabled, :now, :now);
+        QUERY;
+
+        $result = app()->db()->execute($query, [
+            ':name' => $name,
+            ':timezone' => $timezone,
+            ':enabled' => $prayerTimeEnabled ? 1 : 0,
+            ':now' => now(),
+        ]);
+
+        return is_int($result) ? $result : 0;
+    }
+
+    /**
+     * @return array<int, MusicBox>
+     */
+    public static function findSubscribableMusicBoxes(): array
+    {
+        $rows = app()->db()->fetch(<<<'QUERY'
+            SELECT
+                *
+            FROM
+                music_boxes
+            WHERE
+                prayer_time_enabled = 1
+        QUERY);
+
+        $musicBoxes = [];
+
+        foreach ($rows as $row) {
+            $musicBoxes[] = MusicBox::fromArray($row);
+        }
+
+        return $musicBoxes;
+    }
+
+    public static function createSong(int $musicBoxId, string $name, string $filepath): int
+    {
+        $query = <<<'QUERY'
+            INSERT INTO songs (music_box_id, name, filepath, created_at, updated_at)
+                VALUES(:id, :name, :filepath, :now, :now);
+        QUERY;
+
+        $result = app()->db()->execute($query, [
+            ':id' => $musicBoxId,
+            ':name' => $name,
+            ':filepath' => $filepath,
+            ':now' => now(),
+        ]);
+
+        return is_int($result) ? $result : 0;
+    }
+
+    public static function createSubscription(int $subscriberId, int $musicBoxId): int
+    {
+        $query = <<<'QUERY'
+            INSERT INTO subscriptions (subscriber_id, music_box_id, created_at, updated_at)
+                VALUES(:subscriber_id, :music_box_id, :now, :now) ON CONFLICT (subscriber_id, music_box_id)
+                DO
+                UPDATE
+                SET
+                    updated_at = excluded.created_at;
+        QUERY;
+
+        $result = app()->db()->execute($query, [
+            ':subscriber_id' => $subscriberId,
+            ':music_box_id' => $musicBoxId,
+            ':now' => now(),
+        ]);
+
+        return is_int($result) ? $result : 0;
+    }
 }

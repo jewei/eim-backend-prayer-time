@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
-use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 final readonly class Song
 {
@@ -13,7 +14,7 @@ final readonly class Song
         public int $music_box_id,
         public string $name,
         public string $file,
-        public DateTime $created,
+        public DateTimeInterface $created,
     ) {
     }
 
@@ -27,7 +28,7 @@ final readonly class Song
             (int) $data['music_box_id'],
             (string) $data['name'],
             (string) $data['filepath'],
-            new DateTime((string) $data['created_at']),
+            new DateTimeImmutable((string) $data['created_at']),
         );
     }
 }
