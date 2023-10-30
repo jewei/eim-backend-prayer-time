@@ -121,7 +121,7 @@ final class PrayerTimeGateway
 
         $subscriber = Repository::getSubscriber((int) $_REQUEST['id']);
 
-        if (! $subscriber) {
+        if (! $subscriber instanceof Subscriber) {
             return new HtmlResponse('Subscriber not found', 404, 'Not found');
         }
 

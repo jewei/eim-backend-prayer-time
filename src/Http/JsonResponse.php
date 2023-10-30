@@ -17,7 +17,7 @@ final class JsonResponse extends Response
     ) {
         parent::__construct($content, $statusCode, $statusText, $headers);
 
-        $encoded = json_encode($content);
+        $encoded = json_encode($content, JSON_THROW_ON_ERROR);
 
         $this->content = \is_string($encoded) ? $encoded : '';
         $this->headers = [

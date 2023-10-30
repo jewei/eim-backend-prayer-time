@@ -33,7 +33,7 @@ final class Response
 
     public function getJsonContent(string $key = ''): mixed
     {
-        $decoded = json_decode($this->body, true);
+        $decoded = json_decode($this->body, true, 512, JSON_THROW_ON_ERROR);
 
         if ($key && \is_array($decoded) && \array_key_exists($key, $decoded)) {
             return $decoded[$key] ?? null;
@@ -62,9 +62,9 @@ final class Response
                     $headers[$parts[0]] = [$previous];
                 }
                 /** @phpstan-ignore-next-line */
-                $headers[$parts[0]][] = isset($parts[1]) ? $parts[1] : null;
+                $headers[$parts[0]][] = $parts[1] ?? null;
             } else {
-                $headers[$parts[0]] = isset($parts[1]) ? $parts[1] : null;
+                $headers[$parts[0]] = $parts[1] ?? null;
             }
         }
 

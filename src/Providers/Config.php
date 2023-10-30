@@ -8,11 +8,6 @@ use App\ServiceProvider;
 
 final class Config extends ServiceProvider
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $storage = [];
-
     public function get(string $key): ?string
     {
         return \is_string($value = $this->storage()[$key])

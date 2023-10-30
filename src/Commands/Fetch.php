@@ -13,7 +13,7 @@ use Throwable;
 
 final class Fetch extends Command
 {
-    protected DateTimeInterface $datetime;
+    private DateTimeInterface $datetime;
 
     /**
      * @param  array<int, string>  $arguments
@@ -53,7 +53,7 @@ final class Fetch extends Command
      */
     private function resolveDate(array $arguments): DateTimeInterface
     {
-        $datetime = isset($arguments[1]) ? $arguments[1] : 'now';
+        $datetime = $arguments[1] ?? 'now';
 
         return new DateTimeImmutable($datetime);
     }

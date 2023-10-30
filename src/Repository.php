@@ -47,7 +47,7 @@ final class Repository
             LIMIT 1
         QUERY, [':id' => $id]);
 
-        if (empty($rows)) {
+        if ($rows === []) {
             return null;
         }
 
@@ -118,7 +118,7 @@ final class Repository
             LIMIT 1
         QUERY, [':id' => $id]);
 
-        return \count($rows) > 0
+        return $rows !== []
             ? Song::fromArray($rows[0])
             : null;
     }

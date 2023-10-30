@@ -18,17 +18,14 @@ use PDOException;
  */
 final class Database extends ServiceProvider
 {
-    /**
-     * @var ?PDO
-     */
-    protected $connection;
+    private ?\PDO $connection = null;
 
     /**
      * Connects to the database.
      */
     public function connect(): PDO
     {
-        if ($this->connection) {
+        if ($this->connection instanceof \PDO) {
             return $this->connection;
         }
 
@@ -70,7 +67,7 @@ final class Database extends ServiceProvider
     public function execute(string $query, array $bindings = [], bool $fetchMode = false): int|array
     {
         // Reconnect to the database if the PDO connection is missing.
-        if (! $this->connection) {
+        if (! $this->connection instanceof \PDO) {
             $this->connection = $this->connect();
         }
 
@@ -119,7 +116,7 @@ final class Database extends ServiceProvider
      */
     public function executeRaw(string $query): int
     {
-        if (! $this->connection) {
+        if (! $this->connection instanceof \PDO) {
             $this->connection = $this->connect();
         }
 

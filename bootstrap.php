@@ -9,7 +9,7 @@ use App\Dotenv;
  * Ensure app is running the minimum PHP version.
  */
 if (version_compare(PHP_VERSION, '8.2', '<')) {
-    throw new Exception("PHP version 8.2 or higher is required.");
+    throw new Exception('PHP version 8.2 or higher is required.');
 }
 
 /**

@@ -54,7 +54,7 @@ final class Migrate extends Command
             Repository::createMusicBox(
                 $name = str_random(8),
                 $zone->value,
-                random_int(0, 1) ? true : false,
+                (bool) random_int(0, 1),
             );
 
             for ($i = 0; $i < 3; $i++) {

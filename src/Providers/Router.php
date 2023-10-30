@@ -17,7 +17,7 @@ final class Router extends ServiceProvider
     /**
      * @var array<string, array<string, Closure>>
      */
-    protected array $routes = [];
+    private array $routes = [];
 
     public function addRoute(string $method, string $url, Closure $handler): void
     {

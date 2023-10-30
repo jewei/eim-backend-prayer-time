@@ -36,7 +36,7 @@ final class Client
      */
     public function request(string $method, string $url, array $payload = [], array $headers = []): Response
     {
-        if (!\extension_loaded('curl')) {
+        if (! \extension_loaded('curl')) {
             throw new Exception('cURL extention is required.');
         }
 

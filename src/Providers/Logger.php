@@ -76,7 +76,7 @@ final class Logger extends ServiceProvider implements LoggerInterface
 
             file_put_contents(base_path('app.log'), $logEntry, FILE_APPEND);
         } catch (Throwable $th) {
-            throw new InvalidArgumentException($th->getMessage());
+            throw new InvalidArgumentException($th->getMessage(), $th->getCode(), $th);
         }
 
     }

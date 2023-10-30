@@ -30,7 +30,7 @@ trait HasInterationHandlers
     public function handleConsoleCommand(array $values): void
     {
         try {
-            if (empty($values)) {
+            if ($values === []) {
                 throw new Exception('Missing command.');
             }
 
