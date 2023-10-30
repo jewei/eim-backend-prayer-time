@@ -38,15 +38,15 @@ final class Client
         $curl = curl_init();
         $method = strtoupper($method);
 
-        if ($method === self::REQUEST_METHOD_GET && count($payload)) {
+        if ($method === self::REQUEST_METHOD_GET && \count($payload)) {
             $url = $url.'?'.http_build_query($payload);
         }
 
-        if (in_array($method, [
+        if (\in_array($method, [
             self::REQUEST_METHOD_POST,
             self::REQUEST_METHOD_PATCH,
             self::REQUEST_METHOD_PUT,
-        ]) && count($payload)) {
+        ]) && \count($payload)) {
             curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         }
 
@@ -64,7 +64,7 @@ final class Client
 
         $response = curl_exec($curl);
 
-        if ($response === false || is_bool($response)) {
+        if ($response === false || \is_bool($response)) {
             throw new HttpErrorException(
                 sprintf('cURL error %s: %s', curl_errno($curl), curl_error($curl))
             );

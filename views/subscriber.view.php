@@ -31,7 +31,7 @@
             </div>
           </li>
           <?php } ?>
-          <?php if (count($subscriber->subscriptions) < 1) { ?>
+          <?php if (\count($subscriber->subscriptions) < 1) { ?>
             <div class="text-sm font-medium leading-6 text-gray-900">No subscriptions found.</div>
           <?php } ?>
         </ul>

@@ -118,7 +118,7 @@ final class Repository
             LIMIT 1
         QUERY, [':id' => $id]);
 
-        return count($rows) > 0
+        return \count($rows) > 0
             ? Song::fromArray($rows[0])
             : null;
     }
@@ -129,11 +129,11 @@ final class Repository
      */
     public static function getSongs(array $ids): array
     {
-        if (count($ids) < 1) {
+        if (\count($ids) < 1) {
             return [];
         }
 
-        $in = implode(',', array_fill(0, count($ids), '?'));
+        $in = implode(',', array_fill(0, \count($ids), '?'));
 
         $rows = app()->db()->fetch(<<<QUERY
             SELECT
@@ -197,7 +197,7 @@ final class Repository
             ':now' => now(),
         ]);
 
-        return is_int($result) ? $result : 0;
+        return \is_int($result) ? $result : 0;
     }
 
     public static function createSubscriber(string $name, string $email, #[\SensitiveParameter] string $password): int
@@ -214,7 +214,7 @@ final class Repository
             ':now' => now(),
         ]);
 
-        return is_int($result) ? $result : 0;
+        return \is_int($result) ? $result : 0;
     }
 
     public static function createMusicBox(string $name, string $timezone, bool $prayerTimeEnabled): int
@@ -231,7 +231,7 @@ final class Repository
             ':now' => now(),
         ]);
 
-        return is_int($result) ? $result : 0;
+        return \is_int($result) ? $result : 0;
     }
 
     /**
@@ -271,7 +271,7 @@ final class Repository
             ':now' => now(),
         ]);
 
-        return is_int($result) ? $result : 0;
+        return \is_int($result) ? $result : 0;
     }
 
     public static function createSubscription(int $subscriberId, int $musicBoxId): int
@@ -291,6 +291,6 @@ final class Repository
             ':now' => now(),
         ]);
 
-        return is_int($result) ? $result : 0;
+        return \is_int($result) ? $result : 0;
     }
 }

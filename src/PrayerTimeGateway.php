@@ -41,7 +41,7 @@ final class PrayerTimeGateway
 
         $entries = $response->getJsonContent('prayerTime');
 
-        if (! is_array($entries) || ! is_array($entries[0])) {
+        if (! \is_array($entries) || ! \is_array($entries[0])) {
             throw new Exception('Failed to parse solat times. '.$debugInfo);
         }
 
@@ -81,7 +81,7 @@ final class PrayerTimeGateway
 
         $entries = $response->getJsonContent('prayerTime');
 
-        if (! is_array($entries) || ! is_array($entries[0])) {
+        if (! \is_array($entries) || ! \is_array($entries[0])) {
             throw new Exception('Failed to parse solat times. '.$debugInfo);
         }
 
@@ -115,7 +115,7 @@ final class PrayerTimeGateway
 
     public static function viewSubscriber(): HttpResponse
     {
-        if (! array_key_exists('id', $_REQUEST)) {
+        if (! \array_key_exists('id', $_REQUEST)) {
             throw new Exception('Missing user id');
         }
 

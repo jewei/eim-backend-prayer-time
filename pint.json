@@ -2,6 +2,7 @@
     "preset": "psr12",
     "rules": {
         "declare_strict_types": true,
-        "final_class": true
+        "final_class": true,
+        "native_function_invocation": true
     }
 }

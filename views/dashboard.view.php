@@ -97,7 +97,7 @@
                         <?php echo $subscriber->email; ?>
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                        <?php echo count($subscriber->subscriptions); ?>
+                        <?php echo \count($subscriber->subscriptions); ?>
                       </td>
                       <td class="whitespace-nowrap px-3 py-4 text-sm text-blue-700">
                         <a href="/subscriber?id=<?php echo $subscriber->id; ?>">View →</a>

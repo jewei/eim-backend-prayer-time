@@ -35,7 +35,7 @@ final class Response
     {
         $decoded = json_decode($this->body, true);
 
-        if ($key && is_array($decoded) && array_key_exists($key, $decoded)) {
+        if ($key && \is_array($decoded) && \array_key_exists($key, $decoded)) {
             return $decoded[$key] ?? null;
         }
 
@@ -56,8 +56,8 @@ final class Response
         foreach ($lines as $line) {
             $parts = explode(':', $line, 2);
             $parts = array_map('trim', $parts);
-            if (array_key_exists($parts[0], $headers)) {
-                if (! is_array($headers[$parts[0]])) {
+            if (\array_key_exists($parts[0], $headers)) {
+                if (! \is_array($headers[$parts[0]])) {
                     $previous = $headers[$parts[0]];
                     $headers[$parts[0]] = [$previous];
                 }

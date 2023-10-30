@@ -16,7 +16,7 @@ final class Migrate extends Command
      */
     public function handle(array $arguments): void
     {
-        in_array('--fast', $arguments)
+        \in_array('--fast', $arguments)
             ? $this->fast()
             : $this->normal();
     }

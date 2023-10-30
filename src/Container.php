@@ -51,7 +51,7 @@ abstract class Container implements ContainerInterface
      */
     public function has(string $abstract): bool
     {
-        return array_key_exists($abstract, $this->instances);
+        return \array_key_exists($abstract, $this->instances);
     }
 
     /**

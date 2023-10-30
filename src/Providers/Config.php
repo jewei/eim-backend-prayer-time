@@ -15,7 +15,7 @@ final class Config extends ServiceProvider
 
     public function get(string $key): ?string
     {
-        return is_string($value = $this->storage()[$key])
+        return \is_string($value = $this->storage()[$key])
             ? $value
             : null;
     }
@@ -25,7 +25,7 @@ final class Config extends ServiceProvider
      */
     public function load(string $key): array
     {
-        return is_array($value = $this->storage()[$key])
+        return \is_array($value = $this->storage()[$key])
             ? $value
             : [];
     }

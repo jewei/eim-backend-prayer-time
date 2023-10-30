@@ -19,7 +19,7 @@ final class JsonResponse extends Response
 
         $encoded = json_encode($content);
 
-        $this->content = is_string($encoded) ? $encoded : '';
+        $this->content = \is_string($encoded) ? $encoded : '';
         $this->headers = [
             'Content-Type' => 'application/json',
         ];

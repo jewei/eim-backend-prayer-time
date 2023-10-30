@@ -42,7 +42,7 @@ trait HasMacros
         /** @var Logger */
         $logger = $this->get(Logger::class);
 
-        if (! in_array($level, LogLevel::list())) {
+        if (! \in_array($level, LogLevel::list())) {
             throw new InvalidArgumentException('Invalid log level: '.$level);
         }
 

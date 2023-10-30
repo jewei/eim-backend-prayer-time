@@ -54,7 +54,7 @@ final class Database extends ServiceProvider
      */
     public function fetch(string $query, array $bindings = []): array
     {
-        if (is_int($result = $this->execute($query, $bindings, true))) {
+        if (\is_int($result = $this->execute($query, $bindings, true))) {
             throw new Exception('Expecting fetch to get array type result');
         }
 
@@ -83,7 +83,7 @@ final class Database extends ServiceProvider
             // Bind values to given parameters in the statement.
             foreach ($bindings as $key => $value) {
                 $statement->bindValue(
-                    is_string($key) ? $key : $key + 1,
+                    \is_string($key) ? $key : $key + 1,
                     $value,
                     $this->getPdoType($value)
                 );
@@ -148,10 +148,10 @@ final class Database extends ServiceProvider
     private function getPdoType(mixed $value): int
     {
         return match (true) {
-            is_int($value) => PDO::PARAM_INT,
-            is_bool($value) => PDO::PARAM_BOOL,
-            is_null($value) => PDO::PARAM_NULL,
-            is_resource($value) => PDO::PARAM_LOB,
+            \is_int($value) => PDO::PARAM_INT,
+            \is_bool($value) => PDO::PARAM_BOOL,
+            \is_null($value) => PDO::PARAM_NULL,
+            \is_resource($value) => PDO::PARAM_LOB,
             default => PDO::PARAM_STR,
         };
     }
