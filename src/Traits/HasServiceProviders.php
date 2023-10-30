@@ -10,7 +10,7 @@ use App\ServiceProvider;
 
 trait HasServiceProviders
 {
-    private static ?self $app = null;
+    private static ?Application $app = null;
 
     public static function make(): self
     {
