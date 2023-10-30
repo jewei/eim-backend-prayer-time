@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Client;
 
 use App\Exceptions\HttpErrorException;
+use Exception;
 
 /**
  * This module handles Http Client resquest and response.
@@ -35,6 +36,10 @@ final class Client
      */
     public function request(string $method, string $url, array $payload = [], array $headers = []): Response
     {
+        if (!\extension_loaded('curl')) {
+            throw new Exception('cURL extention is required.');
+        }
+
         $curl = curl_init();
         $method = strtoupper($method);
 
